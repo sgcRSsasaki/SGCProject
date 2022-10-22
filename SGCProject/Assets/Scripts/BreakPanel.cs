@@ -4,17 +4,18 @@ using UnityEngine;
 
 public class BreakPanel : MonoBehaviour
 {
+
+    public GameObject confirmationPanel1;
+    public GameObject confirmationPanel2;
+
     private void Start()
     {
-        confirmationPanel.SetActive(false);
+        confirmationPanel2.SetActive(false);
     }
 
-    void Update()
+    public void Event()
     {
-        //Esc‚ª‰Ÿ‚³‚ê‚½Žž
-        if (Input.GetKey(KeyCode.Escape))
-        {
-            confirmationPanel.SetActive(true);
-        }
+        confirmationPanel1.SetActive(false);
+        confirmationPanel2.SetActive(true);
     }
 }
