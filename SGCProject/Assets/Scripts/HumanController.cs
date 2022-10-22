@@ -20,7 +20,7 @@ public class HumanController : MonoBehaviour
     {
 
         bool grounded = Physics2D.Linecast(transform.position,
-                               transform.position - transform.up,
+                               transform.position - transform.up *2,
                                groundlayer);
 
         //‰¡ˆÚ“®
