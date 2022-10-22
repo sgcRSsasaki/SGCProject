@@ -7,6 +7,7 @@ using UnityEditor;
 public class ScenarioDataImporter : AssetPostprocessor
 {
     private static string TextAssetDirPath = "Assets/Database/Scenario/";
+    private static string SaveDirPath = "Assets/Resources/Database/Scenario/";
 
     // 全てのアセットのインポートが完了した後に呼び出される
     private static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets,
@@ -44,6 +45,7 @@ public class ScenarioDataImporter : AssetPostprocessor
         // 一時保存用リスト
         var talkList = new List<ScenarioEvent.TalkPlayData>();
         var bgList = new List<ScenarioEvent.BGPlayData>();
+        var fadeList = new List<ScenarioEvent.FadePlayData>();
 
 		// ヘッダー行を除いてインポート
 		for (int i = 1; i < afterParse.Length; i++){
@@ -75,15 +77,37 @@ public class ScenarioDataImporter : AssetPostprocessor
                     i - 1,
                     parseByComma[column++]));
             }
+            else if (parseByComma[column] == "FadeIn")
+            {
+                column++;
+
+                // FadeInEvent作成
+                fadeList.Add(AddFadeEvent(
+                    i - 1,
+                    true,
+                    ToColorOrDefault(parseByComma[column++], Color.white),
+                    float.Parse(parseByComma[column++])));
+            }
+            else if (parseByComma[column] == "FadeOut")
+            {
+                column++;
+
+                // FadeOutEvent作成
+                fadeList.Add(AddFadeEvent(
+                    i - 1,
+                    false,
+                    ToColorOrDefault(parseByComma[column++], Color.white),
+                    float.Parse(parseByComma[column++])));
+            }
 		}
 
-        talkData.SetData(talkList.ToArray(),bgList.ToArray());
+        talkData.SetData(talkList.ToArray(), bgList.ToArray(), fadeList.ToArray());
 
 		// インスタンス化したものをアセットとして保存
-        var asset = (ScenarioEvent)AssetDatabase.LoadAssetAtPath(path, typeof(ScenarioEvent));
+        var asset = (ScenarioEvent)AssetDatabase.LoadAssetAtPath(SaveDirPath + fileName, typeof(ScenarioEvent));
         if (asset == null){
 		    // 指定のパスにファイルが存在しない場合は新規作成
-            AssetDatabase.CreateAsset(talkData, path);
+            AssetDatabase.CreateAsset(talkData, SaveDirPath + fileName);
         } else {
 		    // 指定のパスに既に同名のファイルが存在する場合は更新
             EditorUtility.CopySerialized(talkData, asset);
@@ -121,6 +145,35 @@ public class ScenarioDataImporter : AssetPostprocessor
         playData.BGID = bg;
 
         return playData;
+    }
+
+    /// <summary>
+    /// 背景イベント生成
+    /// </summary>
+    public static ScenarioEvent.FadePlayData AddFadeEvent(int id, bool fadeIn, Color color, float time)
+    {
+        var playData = new ScenarioEvent.FadePlayData();
+        playData.ID = id;
+        playData.type = (fadeIn) ? ScenarioEvent.EventType.FadeIn : ScenarioEvent.EventType.FadeOut;
+        playData.FadeIn = fadeIn;
+        playData.FadeColor = color;
+        playData.FadeTime = time;
+
+        return playData;
+    }
+
+    /// <summary>
+    /// <para>指定された文字列を Color 型に変換します</para>
+    /// <para>変換できなかった場合デフォルト値を返します</para>
+    /// </summary>
+    public static Color ToColorOrDefault( string htmlString, Color defaultValue = default( Color ) )
+    {
+        Color color;
+        if ( ColorUtility.TryParseHtmlString( htmlString, out color ) )
+        {
+            return color;
+        }
+        return defaultValue;
     }
 }
 #endif
