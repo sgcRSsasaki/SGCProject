@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class ScenarioPlayer : MonoBehaviour
 {
@@ -46,6 +47,9 @@ public class ScenarioPlayer : MonoBehaviour
 
     [SerializeField]
     ScenarioEvent testData;
+
+    [SerializeField]
+    string NextScene;
 
     private void Start() {
         instance = this;
@@ -266,5 +270,6 @@ public class ScenarioPlayer : MonoBehaviour
     private void Finish()
     {
         isPlay = false;
+        SceneManager.LoadScene(NextScene);
     }
 }
