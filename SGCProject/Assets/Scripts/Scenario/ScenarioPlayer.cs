@@ -96,11 +96,25 @@ public class ScenarioPlayer : MonoBehaviour
                         yield return null;
                     }
 
+            if(Input.GetKey(KeyCode.S))
+            {
+                var fadeOutC = FadeEvent(false, Color.black, 0.5f);
+                while(fadeOutC.MoveNext())
+                {
+                    yield return null;
+                }
+                Finish();
+                yield break;
+            }
+
                     nextUI.gameObject.SetActive(true);
 
-                    while(!Input.GetKeyDown("space"))
+                    if(!Input.GetKey(KeyCode.A))
                     {
-                        yield return null;
+                        while(!Input.GetKeyDown("space"))
+                        {
+                            yield return null;
+                        }
                     }
                 }
                 else
@@ -166,6 +180,24 @@ public class ScenarioPlayer : MonoBehaviour
                     now = text.Substring(currentTextCount-1,1);
                 }
             }
+
+            //テキストの一括表示
+            if(Input.GetKey(KeyCode.Space))
+            {
+                currentTextCount = text.Length;
+            }
+
+            if(Input.GetKey(KeyCode.S))
+            {
+                var fadeOutColor = FadeEvent(false, Color.black, 0.5f);
+                while(fadeOutColor.MoveNext())
+                {
+                    yield return null;
+                }
+                Finish();
+                yield break;
+            }
+
             //あと何文字
             messageText.text = text.Substring(0,currentTextCount);
 
@@ -184,7 +216,7 @@ public class ScenarioPlayer : MonoBehaviour
     IEnumerator FadeEvent(bool fadeIn, Color color, float time)
     {
         Color imageColor = color;
-        imageColor.a = fadeIn ? 1.0f : 0.0f;
+        //imageColor.a = fadeIn ? 1.0f : 0.0f;
         while (true)
         {
             if(fadeIn)
