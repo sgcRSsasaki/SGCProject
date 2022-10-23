@@ -20,29 +20,25 @@ public class HumanController : MonoBehaviour
     {
 
         bool grounded = Physics2D.Linecast(transform.position,
-                               transform.position - transform.up *2,
-                               groundlayer);
+                                transform.position - transform.up * 1.5f,
+                                groundlayer);
 
-        //â°à⁄ìÆ
+        //?øΩ?øΩ?øΩ⁄ìÔøΩ
         float moveHorizontal = Input.GetAxis("Horizontal");
 
         Vector2 movement = new Vector2(moveHorizontal, 0);
 
-        if (grounded) 
-        {
-            rb.AddForce(movement * speed);
-        }
-        else
-        {
-            rb.AddForce(movement * speed2);
-        }
+        Vector2 pos = gameObject.transform.position;
+        pos += (movement * (grounded ? speed : speed2) * Time.deltaTime);
+        
+        gameObject.transform.position = pos;
 
-        //ÉWÉÉÉìÉv
+        //?øΩW?øΩ?øΩ?øΩ?øΩ?øΩv
         if (Input.GetKeyDown("space"))
         {
             if (grounded)
             {
-                // è„ï˚å¸Ç…óÕÇâ¡Ç¶ÇÈ
+                // ?øΩ?øΩ?øΩ?øΩ?øΩ?øΩ…óÕÇÔøΩ?øΩ?øΩ?øΩ?øΩ?øΩ?øΩ
                 rb.AddForce(Vector2.up * jump);
             }
         }
