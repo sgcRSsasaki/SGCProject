@@ -17,6 +17,9 @@ public class ScenarioPlayer : MonoBehaviour
     private TextMeshProUGUI nameText;
 
     [SerializeField]
+    private Image nextUI;
+
+    [SerializeField]
     private Image bgImage;
 
     [SerializeField]
@@ -72,6 +75,8 @@ public class ScenarioPlayer : MonoBehaviour
             {
                 // 会話イベント
                 case ScenarioEvent.EventType.Talk:
+                
+                nextUI.gameObject.SetActive(false);
                 var eventTextData = (ScenarioEvent.TalkPlayData)item;
                 //このタイミングでキャラ立ち絵取得 event.CharacterID
                 leftChara.gameObject.SetActive(
@@ -90,6 +95,8 @@ public class ScenarioPlayer : MonoBehaviour
                     {
                         yield return null;
                     }
+
+                    nextUI.gameObject.SetActive(true);
 
                     while(!Input.GetKeyDown("space"))
                     {
