@@ -7,6 +7,6 @@ public class GoHoshizaki : MonoBehaviour
 {
     public void Event()
     {
-        SceneManager.LoadScene("Hoshizaki");
+        SceneManager.LoadScene("Opening");
     }
 }
