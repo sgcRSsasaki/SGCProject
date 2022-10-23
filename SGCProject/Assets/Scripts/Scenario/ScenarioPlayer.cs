@@ -17,6 +17,9 @@ public class ScenarioPlayer : MonoBehaviour
     private TextMeshProUGUI nameText;
 
     [SerializeField]
+    private GameObject textRoot;
+
+    [SerializeField]
     private Image nextUI;
 
     [SerializeField]
@@ -38,6 +41,8 @@ public class ScenarioPlayer : MonoBehaviour
     int currentTextCount = 1;
 
     float timer = 0f;
+
+    bool inputSpace = false;
 
     [SerializeField]
     ScenarioEvent testData;
@@ -65,11 +70,14 @@ public class ScenarioPlayer : MonoBehaviour
 
     IEnumerator Execute(ScenarioEvent data)
     {
+        isPlay = true;
         while (true)
         {
             var item = data.GetEventData(currentIndex);
 
             if(item == null) break;
+
+            if(!isPlay) yield break;
 
             switch (item.type)
             {
@@ -90,37 +98,43 @@ public class ScenarioPlayer : MonoBehaviour
 
                 nameText.text = eventTextData.Name;
                 if(eventTextData.Name.Length != 0 && eventTextData.Message.Length != 0){
+                    textRoot.SetActive(true);
                     var textCor = TextEvent(eventTextData.Message);
                     while(textCor.MoveNext())
                     {
                         yield return null;
                     }
 
-            if(Input.GetKey(KeyCode.S))
-            {
-                var fadeOutC = FadeEvent(false, Color.black, 0.5f);
-                while(fadeOutC.MoveNext())
-                {
-                    yield return null;
-                }
-                Finish();
-                yield break;
-            }
-
                     nextUI.gameObject.SetActive(true);
 
-                    if(!Input.GetKey(KeyCode.A))
+
+                    while(!Input.anyKey)
                     {
-                        while(!Input.GetKeyDown("space"))
+                        if(Input.GetKey(KeyCode.S))
                         {
-                            yield return null;
+                            break;
                         }
+
+                        if(Input.GetKey(KeyCode.A))
+                        {
+                            break;
+                        }
+                        else if(Input.GetKeyDown("space"))
+                        {
+                            inputSpace = true;
+                            break;
+                        }
+
+                        yield return null;
                     }
                 }
                 else
                 {
+                    textRoot.SetActive(false);
                     messageText.text = "";
                 }
+
+                yield return new WaitForSeconds(0.2f);
 
                 currentIndex++;
                 break;
@@ -184,7 +198,15 @@ public class ScenarioPlayer : MonoBehaviour
             //テキストの一括表示
             if(Input.GetKey(KeyCode.Space))
             {
-                currentTextCount = text.Length;
+                if(!inputSpace)
+                {
+                    inputSpace = true;
+                    currentTextCount = text.Length;
+                }
+            }
+            else
+            {
+                inputSpace = false;
             }
 
             if(Input.GetKey(KeyCode.S))
@@ -202,7 +224,7 @@ public class ScenarioPlayer : MonoBehaviour
             messageText.text = text.Substring(0,currentTextCount);
 
             currentTextCount++;
-
+            
             while(timer <= 0.1f) 
             {            
                 timer += Time.deltaTime;
@@ -216,7 +238,7 @@ public class ScenarioPlayer : MonoBehaviour
     IEnumerator FadeEvent(bool fadeIn, Color color, float time)
     {
         Color imageColor = color;
-        //imageColor.a = fadeIn ? 1.0f : 0.0f;
+        imageColor.a = fadeIn ? 1.0f : 0.0f;
         while (true)
         {
             if(fadeIn)
