@@ -18,8 +18,7 @@ public class BalletFire : MonoBehaviour
     {
         if (Input.GetMouseButton(0)) //左マウスボタンが押されたら
         {
-            Debug.Log("押されてる");
-            Instantiate(Bullet, (transform.position), Quaternion.identity);
+            Instantiate(Bullet, transform.position, transform.rotation);
         }
     }
 }
