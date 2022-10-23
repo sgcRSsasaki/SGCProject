@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class HumanController : MonoBehaviour
 {
@@ -21,6 +22,9 @@ public class HumanController : MonoBehaviour
     public LayerMask groundlayer;
     private Rigidbody2D rb;
     bool damage = false;
+    [SerializeField]
+    Heart UI;
+    public int hp = 5;
     // Start is called before the first frame update
     void Start()
     {
@@ -34,8 +38,14 @@ public class HumanController : MonoBehaviour
             if (!damage)
             {
                 damage = true;
+                hp -= 1;
+                UI.HeartSetter(hp);
                 Debug.Log("‚Ò‚¦‚ñ");
                 StartCoroutine(SetSprite(sprites[(int)State.Test], 1.0f, () => { damage = false;  }));
+                if (hp == 0)
+                {
+                    SceneManager.LoadScene("Gameovera");
+                }
             }
         }
     }
