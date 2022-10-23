@@ -15,9 +15,15 @@ EditorBuildSettings:
     path: Assets/Scenes/Game1-1.unity
     guid: 31e5f2ecc281fdb4f8fa503570a8e173
   - enabled: 1
-    path: Assets/Scenes/Event.unity
+    path: Assets/Scenes/Event2.unity
     guid: dd8571dc74c3aeb45a2e322a259e9ecb
   - enabled: 1
     path: Assets/Scenes/Gameovera.unity
     guid: 5fac2b39a1d9ad24183556b0f763c5e6
+  - enabled: 1
+    path: Assets/Scenes/Event1.unity
+    guid: 41f1ff08bc77532468b57883bca2e135
+  - enabled: 1
+    path: Assets/Scenes/Opening.unity
+    guid: 61a5d38e56b1b344593e9d9d03f124d1
   m_configObjects: {}
