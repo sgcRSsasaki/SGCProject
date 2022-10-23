@@ -11,6 +11,9 @@ public class ScenarioEvent : ScriptableObject
     {
         Talk,
         BG,
+        FadeIn,
+        FadeOut,
+        Wait,
     }
 
     /// <summary>
@@ -20,6 +23,7 @@ public class ScenarioEvent : ScriptableObject
     {
         Left,
         Right,
+        None,
     }
 
     /// <summary>
@@ -38,6 +42,10 @@ public class ScenarioEvent : ScriptableObject
     /// 背景イベントリスト
     /// </summary>
     public BGPlayData[] bgEventList;
+    /// <summary>
+    /// 背景イベントリスト
+    /// </summary>
+    public FadePlayData[] fadeEventList;
 
     /// <summary>
     /// シナリオイベントベース
@@ -72,14 +80,26 @@ public class ScenarioEvent : ScriptableObject
     }
 
     /// <summary>
+    /// 背景イベントクラス
+    /// </summary>
+    [System.Serializable]
+    public class FadePlayData : TalkEventBase
+    {
+        public bool FadeIn; 
+        public Color FadeColor;
+        public float FadeTime;
+    }
+
+    /// <summary>
     /// データの設定
     /// </summary>
     /// <param name="talkDatas">会話イベント</param>
     /// <param name="bgDatas">背景イベント</param>
-    public void SetData(TalkPlayData[] talkDatas, BGPlayData[] bgDatas)
+    public void SetData(TalkPlayData[] talkDatas, BGPlayData[] bgDatas, FadePlayData[] fadeDatas)
     {
         talkEventList = talkDatas;
         bgEventList = bgDatas;
+        fadeEventList = fadeDatas;
     }
 
     /// <summary>
@@ -95,6 +115,11 @@ public class ScenarioEvent : ScriptableObject
         }
 
         foreach (var item in bgEventList)
+        {
+            if(item.ID == index) return item;
+        }
+
+        foreach (var item in fadeEventList)
         {
             if(item.ID == index) return item;
         }
