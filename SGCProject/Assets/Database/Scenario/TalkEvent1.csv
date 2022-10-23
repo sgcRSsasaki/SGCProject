@@ -4,9 +4,9 @@ FadeIn,black,0.5
 Talk,Player,0,主人公,0,Message Text Output Test1
 Talk,Player,1,MobA,0,Message Text Output Test2
 Talk,Player,2,,0,
-FadeOut,black,0.5
+FadeOut,white,0.5
 BG,Back‗01
-FadeIn,black,0.5
+FadeIn,white,0.5
 Talk,Player,0,主人公,0,Message Text Output Test3
 Talk,Player,1,MobA,0,Message Text Output Test4
 FadeOut,black,0.5
