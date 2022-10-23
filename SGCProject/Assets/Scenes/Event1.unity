@@ -512,7 +512,8 @@ MonoBehaviour:
   fadeImage: {fileID: 1976591852}
   leftChara: {fileID: 2049310927}
   rightChara: {fileID: 33195209}
-  testData: {fileID: 11400000, guid: 91dc00f7748264f4bb8add4ed338dd54, type: 2}
+  testData: {fileID: 11400000, guid: 72c30469df7f7e941bb06ae7e3ee51c0, type: 2}
+  NextScene: Title
 --- !u!1 &1216739768
 GameObject:
   m_ObjectHideFlags: 0
