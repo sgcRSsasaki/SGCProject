@@ -12,9 +12,12 @@ EditorBuildSettings:
     path: Assets/Scenes/Title.unity
     guid: 8dd9fd40f0e857646b8283d87ef56203
   - enabled: 1
-    path: Assets/Scenes/Hoshizaki.unity
+    path: Assets/Scenes/Game1-1.unity
     guid: 31e5f2ecc281fdb4f8fa503570a8e173
   - enabled: 1
     path: Assets/Scenes/Event.unity
     guid: dd8571dc74c3aeb45a2e322a259e9ecb
+  - enabled: 1
+    path: Assets/Scenes/Gameovera.unity
+    guid: 5fac2b39a1d9ad24183556b0f763c5e6
   m_configObjects: {}
