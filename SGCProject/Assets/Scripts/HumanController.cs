@@ -5,10 +5,9 @@ using UnityEngine;
 public class HumanController : MonoBehaviour
 {
     public float speed;
-    public float speed2;
     public float jump;
-    public LayerMask groundlayer;
     private Rigidbody2D rb;
+    private bool isJumping = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,33 +17,30 @@ public class HumanController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        bool grounded = Physics2D.Linecast(transform.position,
-                               transform.position - transform.up,
-                               groundlayer);
-
         //â°à⁄ìÆ
+
         float moveHorizontal = Input.GetAxis("Horizontal");
 
         Vector2 movement = new Vector2(moveHorizontal, 0);
+        Debug.Log(moveHorizontal);
 
-        if (grounded) 
-        {
-            rb.AddForce(movement * speed);
-        }
-        else
-        {
-            rb.AddForce(movement * speed2);
-        }
+        rb.AddForce(movement * speed);
 
         //ÉWÉÉÉìÉv
-        if (Input.GetKeyDown("space"))
+        if (Input.GetKeyDown("space") && !isJumping)
         {
-            if (grounded)
-            {
-                // è„ï˚å¸Ç…óÕÇâ¡Ç¶ÇÈ
-                rb.AddForce(Vector2.up * jump);
-            }
+            // è„ï˚å¸Ç…óÕÇâ¡Ç¶ÇÈ
+            rb.AddForce(Vector2.up * jump);
+            isJumping = true;
+        }
+        Debug.Log(isJumping);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isJumping = false;
         }
     }
 }
